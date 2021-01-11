@@ -3,10 +3,8 @@ TODO: should be published to some public maven repository
 
 ```bash
 git clone https://github.com/shwaka/kotlin-conditional-compile.git
-cd kotlin-conditional-compile/kococo-debug
-./gradlew publishToMavenLocal
-cd ../kococo-release
-./gradlew publishToMavenLocal
+cd kotlin-conditional-compile
+./install.sh  # just runs gradlew in kococo-debug/ and kococo-release/
 ```
 
 ## Usage
