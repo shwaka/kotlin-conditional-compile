@@ -1,6 +1,7 @@
 plugins {
     kotlin("multiplatform") version "1.4.10"
     `maven-publish`
+    id("com.jfrog.bintray") version "1.8.0"
 }
 
 group = "com.github.shwaka.kococo"
@@ -61,4 +62,35 @@ kotlin {
         val nativeMain by getting
         val nativeTest by getting
     }
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("bintray") {
+            from(components["kotlin"])
+            // artifact(tasks["sourcesJar"])
+            groupId = "com.github.shwaka.kococo"
+            artifactId = "kococo-debug"
+            version = "0.1"
+        }
+    }
+}
+
+bintray {
+    user = System.getenv("BINTRAY_USER")
+    key = System.getenv("BINTRAY_KEY")
+    setPublications("bintray")
+    pkg(
+        closureOf<com.jfrog.bintray.gradle.BintrayExtension.PackageConfig> {
+            repo = "maven"
+            name = "kococo-debug"
+            // version = VersionConfig().apply {
+            //     name = "0.2"
+            // }
+        }
+    )
+}
+
+tasks.named("bintrayUpload") {
+    dependsOn("assemble")
 }
