@@ -10,7 +10,10 @@ version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
-    mavenLocal()
+    // mavenLocal()
+    maven {
+        setUrl("https://dl.bintray.com/shwaka/maven/")
+    }
 }
 
 dependencies {
