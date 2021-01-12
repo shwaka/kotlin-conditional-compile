@@ -1,9 +1,13 @@
+Conditional compilation (such as `#ifdef DEBUG`) in kotlin
+
+もっと良い方法ないの？
+
 ## Usage
 
 ```kotlin
 // build.gradle.kts
 repositories {
-    mavenLocal()
+    maven { setUrl("https://dl.bintray.com/shwaka/maven/") }
 }
 
 dependencies {
