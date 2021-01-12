@@ -118,4 +118,5 @@ public final class AppKt
 
 
 ## Publish
-`./publish.sh`
+1. `./publish.sh`
+2. Make sure to "publish" in bintray from the web browser
