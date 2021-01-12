@@ -1,11 +1,11 @@
 plugins {
     kotlin("multiplatform") version "1.4.10"
     `maven-publish`
-    id("com.jfrog.bintray") version "1.8.0"
+    id("com.jfrog.bintray") version "1.8.4"
 }
 
 group = "com.github.shwaka.kococo"
-version = "0.1"
+version = "0.3"
 
 repositories {
     mavenCentral()
@@ -64,31 +64,57 @@ kotlin {
     }
 }
 
+val artifactName = project.name
+val artifactGroup = project.group.toString()
+val artifactVersion = project.version.toString()
+
+// val mySourcesJar by tasks.creating(Jar::class) {
+//     archiveClassifier.set("sources")
+//     from(sourceSets.getByName("main").allSource)
+// }
+
 publishing {
     publications {
         create<MavenPublication>("bintray") {
-            from(components["kotlin"])
-            // artifact(tasks["sourcesJar"])
-            groupId = "com.github.shwaka.kococo"
-            artifactId = "kococo-debug"
-            version = "0.1"
+            // from(components["kotlin"])
+            artifact(tasks["sourcesJar"])
+            // artifact(mySourcesJar)
+            groupId = artifactGroup
+            artifactId = artifactName
+            version = artifactVersion
         }
     }
 }
 
 bintray {
-    user = System.getenv("BINTRAY_USER")
-    key = System.getenv("BINTRAY_KEY")
+    // user = System.getenv("BINTRAY_USER")
+    // key = System.getenv("BINTRAY_KEY")
+    user = project.property("bintrayUser") as String
+    key = project.property("bintrayApiKey") as String
+    publish = false
     setPublications("bintray")
-    pkg(
-        closureOf<com.jfrog.bintray.gradle.BintrayExtension.PackageConfig> {
-            repo = "maven"
-            name = "kococo-debug"
-            // version = VersionConfig().apply {
-            //     name = "0.2"
-            // }
+    pkg.apply {
+        repo = "maven"
+        name = artifactName
+        version.apply {
+            name = artifactVersion
+            desc = "my description"
+            // released = java.util.Date().toString()
+            vcsTag = artifactVersion
         }
-    )
+    }
+    // pkg(
+    //     closureOf<com.jfrog.bintray.gradle.BintrayExtension.PackageConfig> {
+    //         repo = "maven"
+    //         name = artifactName
+    //         version.apply {
+    //             name = artifactVersion
+    //             desc = "my description"
+    //             // released = java.util.Date().toString()
+    //             vcsTag = artifactVersion
+    //         }
+    //     }
+    // )
 }
 
 tasks.named("bintrayUpload") {
