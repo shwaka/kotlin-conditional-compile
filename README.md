@@ -4,10 +4,12 @@ Conditional compilation (such as `#ifdef DEBUG`) in kotlin
 
 ## Usage
 
+Published at [shwaka/maven](https://github.com/shwaka/maven)
+
 ```kotlin
 // build.gradle.kts
 repositories {
-    maven { setUrl("https://dl.bintray.com/shwaka/maven/") }
+    maven(url = "https://shwaka.github.io/maven/")
 }
 
 dependencies {
