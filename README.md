@@ -124,5 +124,7 @@ public final class AppKt
 
 
 ## Publish
-1. `./publish.sh`
-2. Make sure to "publish" in bintray from the web browser
+1. `cd kococo-debug`
+2. `./gradlew publishToMavenLocal`
+3. Copy `~/.m2/repository/com/github/shwaka/kococo/kococo-debug` to the repository
+4. Do the same steps also for `kococo-release`

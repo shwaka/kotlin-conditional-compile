@@ -1,7 +1,6 @@
 plugins {
     kotlin("multiplatform") version "1.4.10"
     `maven-publish`
-    id("com.jfrog.bintray") version "1.8.4"
 }
 
 group = "com.github.shwaka.kococo"
@@ -62,88 +61,4 @@ kotlin {
         val nativeMain by getting
         val nativeTest by getting
     }
-}
-
-val artifactName = project.name
-val artifactGroup = project.group.toString()
-val artifactVersion = project.version.toString()
-
-// val mySourcesJar by tasks.creating(Jar::class) {
-//     archiveClassifier.set("sources")
-//     from(sourceSets.getByName("main").allSource)
-// }
-
-// publishing {
-//     publications {
-//         create<MavenPublication>("bintray") {
-//             // from(components["kotlin"])
-//             artifact(tasks["sourcesJar"])
-//             from(components["kotlin"])
-//             // artifact(mySourcesJar)
-//             groupId = artifactGroup
-//             artifactId = artifactName
-//             version = artifactVersion
-//         }
-//     }
-// }
-
-// afterEvaluate {
-//     project.publishing.publications.all {
-//         this as MavenPublication
-//         artifactId = artifactName + "-$name".takeUnless { "metadata" in name }.orEmpty()
-//     }
-// }
-
-bintray {
-    // user = System.getenv("BINTRAY_USER")
-    // key = System.getenv("BINTRAY_KEY")
-    user = project.property("bintrayUser") as String
-    key = project.property("bintrayApiKey") as String
-    publish = false
-    // setPublications("bintray")
-    setPublications("js", "jvm")
-    pkg.apply {
-        repo = "maven"
-        name = artifactName
-        version.apply {
-            name = artifactVersion
-            desc = "my description"
-            // released = java.util.Date().toString()
-            vcsTag = artifactVersion
-        }
-    }
-    // pkg(
-    //     closureOf<com.jfrog.bintray.gradle.BintrayExtension.PackageConfig> {
-    //         repo = "maven"
-    //         name = artifactName
-    //         version.apply {
-    //             name = artifactVersion
-    //             desc = "my description"
-    //             // released = java.util.Date().toString()
-    //             vcsTag = artifactVersion
-    //         }
-    //     }
-    // )
-}
-
-// tasks.withType<com.jfrog.bintray.gradle.BintrayUploadTask> {
-//     doFirst {
-//         publishing.publications.filterIsInstance<MavenPublication>()
-//             .forEach { publication ->
-//                 val moduleFile = buildDir.resolve("publications/${publication.name}/module.json")
-//                 if (moduleFile.exists()) {
-//                     publication.artifact(object : org.gradle.api.publish.maven.internal.artifact.FileBasedMavenArtifact(moduleFile) {
-//                         override fun getDefaultExtension() = "module"
-//                     })
-//                 }
-//             }
-//     }
-// }
-
-// tasks.withType<com.jfrog.bintray.gradle.BintrayUploadTask> {
-//     setPublications(publishing.publications.map { it.name }.filter { it != "kotlinMultiplatform" })
-// }
-
-tasks.named("bintrayUpload") {
-    dependsOn("assemble")
 }
