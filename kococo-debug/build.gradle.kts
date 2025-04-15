@@ -64,3 +64,12 @@ kotlin {
         val nativeTest by getting
     }
 }
+
+publishing {
+    repositories {
+        maven {
+            url = uri("../../maven/repository")
+            name = "MyMaven"
+        }
+    }
+}
