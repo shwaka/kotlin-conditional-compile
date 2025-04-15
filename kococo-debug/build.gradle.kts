@@ -1,10 +1,10 @@
 plugins {
-    kotlin("multiplatform") version "1.4.10"
+    kotlin("multiplatform") version "1.9.10"
     `maven-publish`
 }
 
 group = "com.github.shwaka.kococo"
-version = "0.1"
+version = "0.2"
 
 repositories {
     mavenCentral()
@@ -19,12 +19,14 @@ kotlin {
             useJUnit()
         }
     }
-    js(BOTH) {
+    js(IR) {
         browser {
             testTask {
                 useKarma {
                     useChromeHeadless()
-                    webpackConfig.cssSupport.enabled = true
+                    webpackConfig.cssSupport {
+                        enabled.set(true)
+                    }
                 }
             }
         }
